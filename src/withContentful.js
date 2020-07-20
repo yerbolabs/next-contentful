@@ -9,7 +9,7 @@ import initContentful from './initContentful';
 
 const Flatted = require('flatted/cjs');
 
-export default ({ accessToken, host, space, environment, locale }) => {
+export default ({ locale, ...contentfulParams }) => {
   return (ComposedComponent) => {
     const propTypes = {
       contentfulState: PropTypes.shape(),
@@ -38,12 +38,7 @@ export default ({ accessToken, host, space, environment, locale }) => {
 
         // Run all Contentful queries in the component tree
         // and extract the resulting data
-        const contentful = initContentful({
-          accessToken,
-          host,
-          space,
-          environment,
-        });
+        const contentful = initContentful(contentfulParams);
 
         if (!process.browser) {
           try {
@@ -74,10 +69,7 @@ export default ({ accessToken, host, space, environment, locale }) => {
 
         // Pass in the Contentful client credentials and initial cache state
         const contentfulState = {
-          accessToken,
-          host,
-          space,
-          environment,
+          ...contentfulParams,
           cache: Flatted.stringify(contentful.cache.extract()),
         };
 

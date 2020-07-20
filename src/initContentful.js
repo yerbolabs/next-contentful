@@ -3,17 +3,11 @@ import { ContentfulCache, ContentfulClient } from 'react-contentful';
 let client = null;
 
 function create({
-  accessToken,
   cache,
-  host,
-  space,
-  environment = 'master',
+  ...params
 }) {
   return new ContentfulClient({
-    host,
-    accessToken,
-    space,
-    environment,
+    ...params,
     ssrMode: !!(process.browser) === false,
     cache: cache instanceof ContentfulCache
       ? cache
